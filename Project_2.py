@@ -1,13 +1,33 @@
 import numpy as np
 import copy
 from collections import deque
+import time
+def circle_obstacle(CurrentPoint):
+    center = [225, 150]
+    Res = (CurrentPoint[0] - center[0])**2 + (CurrentPoint[1] - center[1])**2
+    if Res <= pow(25,2):
+        return -1
+    else:
+        return CurrentPoint
+
+def elipse(CurrentPoint):
+    center = [150, 150]
+    a = 40**2
+    b = 20**2
+    Res = b*(CurrentPoint[0]-center[0])**2 + a* (CurrentPoint[1] - center[1])**2
+    if Res <= (a*b):
+        return -1
+    else:
+        return CurrentPoint
 
 
-def ActionMoveLeft(CurrentNode, Parent): # Calculates if 0 can move to his left
+# # # # # # # # # # A C T I O N S # # # # # # # # #
+def ActionMoveLeft(CurrentNode, Parent, Cost): # Calculates if 0 can move to his left
     new_point = CurrentNode[:]
+    Cost += 1
     if new_point[0] > 0:    # Defines the boundary of a left move ( Needs to be checked)
         new_point[0] -= 1
-        Node = {'state': new_point, 'parent': Parent} # storage my new node in a dictionary with its respective parent, and index
+        Node = {'state': new_point, 'parent': Parent,  'Cost2come': Cost} # storage my new node in a dictionary with its respective parent, and index
 
         if Node['state'] == Parent: # compares if new node is equal to parent
             return -1 # returns a flag to avoid this calculation
@@ -18,28 +38,31 @@ def ActionMoveLeft(CurrentNode, Parent): # Calculates if 0 can move to his left
         return -1
 
 
-def ActionMoveRight(CurrentNode, Parent): # Same idea as ActionMoveLeft but applied to Right
+def ActionMoveRight(CurrentNode, Parent, Cost): # Same idea as ActionMoveLeft but applied to Right
     new_point = CurrentNode[:]
+    Cost += 1
     if new_point[0]<300:
         new_point[0] +=1
 
-        Node = {'state': new_point, 'parent': Parent}
+        Node = {'state': new_point, 'parent': Parent,  'Cost2come': Cost}
 
         if Node['state'] == Parent:
             return -1
         else:
 
             return Node
+
     else:
         return -1
 
 
-def ActionMoveUp(CurrentNode, Parent): # Same idea as previous nodes
+def ActionMoveUp(CurrentNode, Parent, Cost): # Same idea as previous nodes
      new_point = CurrentNode[:]
+     Cost += 1
      if new_point[1] < 200:
         new_point[1] += 1
 
-        Node = {'state': new_point, 'parent': Parent}
+        Node = {'state': new_point, 'parent': Parent,  'Cost2come': Cost}
 
         if Node['state'] == Parent:
             return -1
@@ -50,11 +73,12 @@ def ActionMoveUp(CurrentNode, Parent): # Same idea as previous nodes
         return -1
 
 
-def ActionMoveDown(CurrentNode, Parent):# Same idea as ActionMoveLeft but applied to Right
+def ActionMoveDown(CurrentNode, Parent, Cost):# Same idea as ActionMoveLeft but applied to Right
      new_point = CurrentNode[:]
+     Cost += 1
      if new_point[1] > 0:
         new_point[1] -= 1
-        Node = {'state': new_point, 'parent': Parent}
+        Node = {'state': new_point, 'parent': Parent,  'Cost2come': Cost}
         if Node['state'] == Parent:
             return -1
         else:
@@ -64,13 +88,14 @@ def ActionMoveDown(CurrentNode, Parent):# Same idea as ActionMoveLeft but applie
         return -1
 
 
-def ActionMoveUpperLeft(CurrentNode, Parent): # Same idea as ActionMoveLeft but applied to Right
+def ActionMoveUpperLeft(CurrentNode, Parent, Cost): # Same idea as ActionMoveLeft but applied to Right
         new_point = CurrentNode[:]
+        Cost += 1.414
         if new_point[0] > 0 and new_point[1]<200:
             new_point[0]-=1
             new_point[1]+=1
 
-            Node = {'state': new_point, 'parent': Parent}
+            Node = {'state': new_point, 'parent': Parent,  'Cost2come': Cost}
 
             if Node['state'] == Parent:
                 return -1
@@ -81,12 +106,13 @@ def ActionMoveUpperLeft(CurrentNode, Parent): # Same idea as ActionMoveLeft but 
             return -1
 
 
-def ActionMoveUpperRight(CurrentNode, Parent): # Same idea as ActionMoveLeft but applied to Right
+def ActionMoveUpperRight(CurrentNode, Parent, Cost): # Same idea as ActionMoveLeft but applied to Right
     new_point = CurrentNode[:]
+    Cost += 1.414
     if new_point[0] < 300 and new_point[1] < 200:
         new_point[0] += 1
         new_point[1] += 1
-        Node = {'state': new_point, 'parent': Parent}
+        Node = {'state': new_point, 'parent': Parent,  'Cost2come': Cost}
 
         if Node['state'] == Parent:
             return -1
@@ -97,12 +123,13 @@ def ActionMoveUpperRight(CurrentNode, Parent): # Same idea as ActionMoveLeft but
         return -1
 
 
-def ActionMoveLowerLeft(CurrentNode, Parent): # Same idea as ActionMoveLeft but applied to Right
+def ActionMoveLowerLeft(CurrentNode, Parent, Cost): # Same idea as ActionMoveLeft but applied to Right
     new_point = CurrentNode[:]
+    Cost += 1.414
     if new_point[0] > 0 and new_point[1] > 0:
         new_point[0] -= 1
         new_point[1] -= 1
-        Node = {'state': new_point, 'parent': Parent}
+        Node = {'state': new_point, 'parent': Parent,  'Cost2come': Cost}
 
         if Node['state'] == Parent:
             return -1
@@ -114,12 +141,13 @@ def ActionMoveLowerLeft(CurrentNode, Parent): # Same idea as ActionMoveLeft but 
         return -1
 
 
-def ActionMoveLowerRight(CurrentNode, Parent): # Same idea as ActionMoveLeft but applied to Right
+def ActionMoveLowerRight(CurrentNode, Parent, Cost): # Same idea as ActionMoveLeft but applied to Right
     new_point = CurrentNode[:]
+    Cost += 1.414
     if new_point[0] < 300 and new_point[1] > 0:
         new_point[0] += 1
         new_point[1] -= 1
-        Node = {'state':new_point, 'parent': Parent}
+        Node = {'state':new_point, 'parent': Parent,  'Cost2come': Cost}
         if Node['state'] == Parent:
             return -1
         else:
@@ -129,17 +157,16 @@ def ActionMoveLowerRight(CurrentNode, Parent): # Same idea as ActionMoveLeft but
         return -1
 
 
-def branch_nodes(Node, Parent): # funtion that determines the all the posible moves of cero. It returns my new nodes from its parent
+def branch_nodes(Node, Parent, Cost): # funtion that determines the all the posible moves of cero. It returns my new nodes from its Parent
     Nodes=[]
-    Nodes.append(ActionMoveUpperRight(Node, Parent)) # intend to calculate move in diagonal
-    Nodes.append(ActionMoveLeft(Node, Parent))
-    Nodes.append(ActionMoveLowerLeft(Node, Parent))
-    Nodes.append(ActionMoveRight(Node, Parent))
-    Nodes.append(ActionMoveUp(Node, Parent))
-    Nodes.append(ActionMoveDown(Node, Parent))
-    Nodes.append(ActionMoveUpperLeft(Node, Parent))
-    Nodes.append(ActionMoveLowerRight(Node, Parent))
-
+    Nodes.append(ActionMoveUpperRight(Node, Parent, Cost)) # intend to calculate move in diagonal
+    Nodes.append(ActionMoveRight(Node, Parent, Cost))
+    Nodes.append(ActionMoveLowerRight(Node, Parent, Cost))
+    Nodes.append(ActionMoveDown(Node, Parent, Cost))
+    Nodes.append(ActionMoveLowerLeft(Node, Parent, Cost))
+    Nodes.append(ActionMoveLeft(Node, Parent, Cost))
+    Nodes.append(ActionMoveUpperLeft(Node, Parent, Cost))
+    Nodes.append(ActionMoveUp(Node, Parent, Cost))
     Nodes = [x for x in Nodes if x != -1]
     #print("exit branchs", Nodes)
 
@@ -147,6 +174,7 @@ def branch_nodes(Node, Parent): # funtion that determines the all the posible mo
 
 
 if __name__ == '__main__':
+    t0=time.time()
     #____Inicial Data
     Goal = []
     Initial = []
@@ -155,13 +183,13 @@ if __name__ == '__main__':
     #In_x, In_y = input("Initial coordinates: x, y ").split()
     #Goal=[Goal_x, Goal_y]
     #Initial=[In_x, In_y]
-    Goal = [100, 100]
-    Initial = [10, 10]
+    Goal = [300, 200]
+    Initial = [0, 0]
     # # # # # # # # # P R O G R A M # # # # # # # # #  #  #
-    nodes = deque()
+    Cost2come = deque()
     Parents = deque()
     New_Nodes = deque()
-    father = {'state': Initial, 'parent': None}
+    father = {'state': Initial, 'parent': None, 'Cost2come': 0}
     # Create the queue with the root node in it.
     node = copy.deepcopy(father)
 
@@ -169,20 +197,36 @@ if __name__ == '__main__':
     Parents.append(node)
     x = 0
 
-
     while True:
         father = node['state']
+        Cost = node['Cost2come']
         if node['state'] == Goal:
             break
         else:
-            New_Nodes = branch_nodes(node['state'], father)  # calculate the possible nodes excluding the ones that have been already calculated.
+            New_Nodes = branch_nodes(node['state'], father, Cost)  # calculate the possible nodes excluding the ones that have been already calculated.
             parentsStates = [parent['state'] for parent in Parents]
-            #print(parentsStates)
-            for New_Node in New_Nodes:                                     # Condition to store only new nodes
+            #print("Parents new cycle ", Parents[x])
+            #print("New Node ", [(New_Node['state'], New_Node['parent'], New_Node['Cost2come']) for New_Node in New_Nodes])
+
+            for New_Node in New_Nodes:
+                #print(parentsStates)
+                #print(New_Node['state'], parentsStates)
+                if New_Node['state'] in parentsStates:
+                    #print(New_Node)
+                    ind = parentsStates.index(New_Node['state'])
+                    #print(ind)
+                    #print(Parents[ind])
+                    if Parents[ind]['Cost2come'] > New_Node['Cost2come']:
+                        Parents[ind]=New_Node
+                    #print(Parents[ind])
                 if New_Node['state'] not in parentsStates:
                     Parents.append(New_Node)
+
+
+
         node = Parents[x+1]  # this instruction refress the node to continue with the next iteration
-        #print(node)
+        print(node)
+
         x = x+1
         #print([parent['parent'] for parent in Parents])
     backParents = [parent for parent in Parents if parent['state'] == Goal]
@@ -197,12 +241,12 @@ if __name__ == '__main__':
         backParents.append(parentForGoal[0])
         #print(parentForGoal)
     # CHEcKING RESULTS
-
-    # print([parent['Node_ind'] for parent in backParents])
-    # print(len(backParents))
+    #print([parent['Cost2come'] for parent in backParents])
+    #print(len(backParents))
 
 
     for i in range(len(backParents)):
 
-        print(backParents[-i-1]['state'])
-
+        print(backParents[-i-1]['state'], backParents[-i-1]['Cost2come'])
+    t1=time.time()
+    print(t1-t0)
