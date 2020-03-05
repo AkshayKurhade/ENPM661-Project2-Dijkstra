@@ -183,7 +183,7 @@ if __name__ == '__main__':
     #In_x, In_y = input("Initial coordinates: x, y ").split()
     #Goal=[Goal_x, Goal_y]
     #Initial=[In_x, In_y]
-    Goal = [300, 200]
+    Goal = [100, 100]
     Initial = [0, 0]
     # # # # # # # # # P R O G R A M # # # # # # # # #  #  #
     Cost2come = deque()
