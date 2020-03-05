@@ -2,7 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 import time
-userdefined =False
+
+userdefined = False
 if userdefined:
     start_nodex = int(input("please enter start point x coordinate: "))
     start_nodey = int(input("please enter start point y coordinate: "))
@@ -10,10 +11,10 @@ if userdefined:
     goal_nodex = int(input("please enter goal point x coordinate: "))
     goal_nodey = int(input("please enter goal point y coordinate: "))
 else:
-    start_nodex=5
-    start_nodey=5
-    goal_nodex=195
-    goal_nodey=195
+    start_nodex = 5
+    start_nodey = 5
+    goal_nodex = 195
+    goal_nodey = 195
 obstaclespace = np.zeros(shape=(int(201), int(301)))
 
 plt.plot(start_nodex, start_nodey, "Dr")
@@ -24,27 +25,27 @@ ploty = []
 
 # Geometrical definition of the obstacle space
 
-## Defining the boundary walls
+# Defining the boundary walls
 boundary_x = []
 boundary_y = []
 
 for i in range(301):
     boundary_x.append(i)
     boundary_y.append(0)
-    obstaclespace[0][i] = 1
+    obstaclespace[0][i] = -1
 
     boundary_x.append(i)
     boundary_y.append(200)
-    obstaclespace[200][i] = 1
+    obstaclespace[200][i] = -1
 
 for i in range(201):
     boundary_x.append(0)
     boundary_y.append(i)
-    obstaclespace[i][0] = 1
+    obstaclespace[i][0] = -1
 
     boundary_x.append(300)
     boundary_y.append(i)
-    obstaclespace[i][300] = 1
+    obstaclespace[i][300] = -1
 
 # Object 1 = Centre ellipse
 centre_ellipse = []
@@ -60,9 +61,9 @@ for x in range(251):
 
 centre_ellipse_x = [x[0] for x in centre_ellipse]
 centre_ellipse_y = [x[1] for x in centre_ellipse]
-plt.scatter(centre_ellipse_x, centre_ellipse_y,color='b')
+plt.scatter(centre_ellipse_x, centre_ellipse_y, color='b')
 for i in centre_ellipse:
-    obstaclespace[i[1]][i[0]] = 1
+    obstaclespace[i[1]][i[0]] = -1
 
 # Object 2 = right corner Circle
 rc_circle = []
@@ -76,7 +77,7 @@ rc_circlex = [x[0] for x in rc_circle]
 rc_circley = [x[1] for x in rc_circle]
 plt.scatter(rc_circlex, rc_circley, color='b')
 for i in rc_circle:
-    obstaclespace[i[1]][i[0]] = 1
+    obstaclespace[i[1]][i[0]] = -1
 
 # Object 3= bottom right quadrilateral
 sideA = []
@@ -101,17 +102,14 @@ for x in range(301):
         if B <= 0:
             sideB.append((x, y))
 
-
 brquad = list(set(sideA) & set(sideB) & set(sideC) & set(sideD))
 for i in brquad:
-    obstaclespace[i[1]][i[0]] = 1
-
+    obstaclespace[i[1]][i[0]] = -1
 
 x_brquad = [x[0] for x in brquad]
 y_brquad = [x[1] for x in brquad]
 
 plt.scatter(x_brquad, y_brquad, color='g')
-
 
 # Object 4 = Bottom left rectangle
 rect_side1 = []
@@ -138,7 +136,7 @@ y_blrectangle = [x[1] for x in blrectangle]
 plt.scatter(x_blrectangle, y_blrectangle, color='r')
 
 for i in blrectangle:
-    obstaclespace[i[1]][i[0]] = 1
+    obstaclespace[i[1]][i[0]] = -1
 
 # Object 5= Top Left quadrilateral
 side1 = []
@@ -170,7 +168,7 @@ for x in range(301):
         line4 = y - 185
         if line4 <= 0:
             side4.append((x, y))
-        line7 = x -75
+        line7 = x - 75
         if line7 <= 0:
             side7.append((x, y))
         line8 = 10 * y + 13 * x - 2175
@@ -199,7 +197,7 @@ y_tlquad = [x[1] for x in tlquad]
 plt.scatter(x_tlquad, y_tlquad, color='y')
 
 for i in brquad:
-    obstaclespace[i[1]][i[0]] = 1
+    obstaclespace[i[1]][i[0]] = -1
 obstacle_t = obstaclespace.T
 obs = []
 for i in range(300):
@@ -208,3 +206,5 @@ for i in range(300):
 plt.scatter(boundary_x, boundary_y, color='k')
 
 plt.show()
+
+np.savetxt('text.txt',obstaclespace,fmt='%d')
