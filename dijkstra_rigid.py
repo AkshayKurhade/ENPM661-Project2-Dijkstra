@@ -4,16 +4,18 @@ from finalmap import *
 
 userdefined = False
 if userdefined:
-    start_nodex = int(input("please enter start point x coordinate: "))
-    start_nodey = int(input("please enter start point y coordinate: "))
+    start_nodex = int(input("Please enter Start point X coordinate: "))
+    start_nodey = int(input("Please enter Start point Y coordinate: "))
 
-    goal_nodex = int(input("please enter goal point x coordinate: "))
-    goal_nodey = int(input("please enter goal point y coordinate: "))
+    goal_nodex = int(input("Please enter Goal point X coordinate: "))
+    goal_nodey = int(input("Please enter Goal point Y coordinate: "))
+    clearance = int(input("Please enter the Radius of the robot"))
 else:
     start_nodex = 5
     start_nodey = 5
     goal_nodex = 295
-    goal_nodey = 195
+    goal_nodey = 5
+    clearance = 1
 
 start_pos = (start_nodex, start_nodey)
 goal_pos = (goal_nodex, goal_nodey)
@@ -23,7 +25,7 @@ plt.plot(goal_nodex, goal_nodey, "Dr")
 start_time = time.time()
 
 if __name__ == '__main__':
-    final_obs, wall_x, wall_y = finalmap(0)
+    final_obs, wall_x, wall_y = finalmap(clearance)
     if start_pos in (zip(wall_x, wall_y) or final_obs):
         print("Start Position in obstacle space")
 

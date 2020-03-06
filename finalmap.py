@@ -1,7 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def finalmap():
+def finalmap(clearance):
+
     obstaclespace = np.zeros(shape=(int(201), int(301)))
     # Geometrical definition of the obstacle space
 
@@ -29,8 +30,8 @@ def finalmap():
 
     # Object 1 = Centre ellipse
     centre_ellipse = []
-    major_axis = int(40)
-    minor_axis = int(20)
+    major_axis = int(40) + clearance
+    minor_axis = int(20) + clearance
 
     for x in range(251):
         for y in range(151):
@@ -49,7 +50,7 @@ def finalmap():
     rc_circle = []
     for x in range(301):
         for y in range(201):
-            figure2 = (x - 225) ** 2 + (y - 150) ** 2 - (25) ** 2
+            figure2 = (x - 225) ** 2 + (y - 150) ** 2 - (25 + clearance) ** 2
             if figure2 <= 0:
                 rc_circle.append((x, y))
 

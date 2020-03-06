@@ -70,7 +70,7 @@ def dijkstra(start_pos, goal_pos, obstacle_space):
 
             node_parent = current_node[1]
             # Bounds check
-            if node_position[0] > 300 or node_position[0] < 0 or node_position[1] > 200 or node_position[1] < 0:
+            if node_position[0] > (len(obstacle_space) - 1) or node_position[0] < 0 or node_position[1] > (len(obstacle_space[1]) - 1) or node_position[1] < 0:
                 continue
 
             # Ignore the locations in map which are obstacles
