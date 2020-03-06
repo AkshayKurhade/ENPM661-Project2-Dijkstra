@@ -1,5 +1,7 @@
 # ENPM661-Project 2
 ## Implementation of Dijkstra algorithm for a Point and Rigid Robot
+
+
 ## Libraries used
     1) Matplotlib
     2) Numpy
