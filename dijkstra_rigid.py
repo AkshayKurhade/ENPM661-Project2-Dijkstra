@@ -38,6 +38,8 @@ if __name__ == '__main__':
             scatterx = [x[0] for x in path]
             scattery = [x[1] for x in path]
             plt.plot(scatterx, scattery, color='r', linewidth=4)
+            plt.savefig('path_rigid.png')
+            plt.show()
             elapsed_time = time.time() - start_time
             print("Time Required to Solve ", round(elapsed_time, 2), "seconds")
         else:

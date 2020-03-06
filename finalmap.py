@@ -185,5 +185,6 @@ def finalmap(clearance):
         obs.append(obstacle_t[i])
 
     plt.scatter(boundary_x, boundary_y, color='k')
+    plt.savefig("map.png")
     plt.show()
     return obs, boundary_x, boundary_y
