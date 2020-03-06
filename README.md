@@ -1,7 +1,7 @@
 # ENPM661-Project 2
 ## Implementation of Dijkstra algorithm for a Point and Rigid Robot
-
-
+Fig. Final Obstacle Map
+    ![alt text](https://github.com/AkshayKurhade/ENPM661-Project2-Dijkstra/blob/master/map.png "Map Title Text 1")
 ## Libraries used
     1) Matplotlib
     2) Numpy
@@ -31,5 +31,12 @@
         3) Input Goal point x co-ordinate - Enter X co-ordinate of goal position.
         4) Input Goal point y co-ordinate - Enter Y co-ordinate of goal position.
         5) Input Radius of the robot      - Enter Radius of the robot
-        
-     
+ ## Runtime
+    Runtime for:
+        Start Position=(5,5)
+        Goal Position =(295,195)
+        Average ~ 9.2-10.3 seconds
+    Figure:- Final Path for (5,5) to (295,195)
+    
+   ![alt text](https://github.com/AkshayKurhade/ENPM661-Project2-Dijkstra/blob/master/path_point.png "Map Title Text 1")
+   
