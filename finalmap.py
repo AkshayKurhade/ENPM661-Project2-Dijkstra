@@ -65,21 +65,20 @@ def finalmap(clearance):
     sideB = []
     sideC = []
     sideD = []
-    sideE = []
 
     for x in range(301):
         for y in range(201):
-            A = 5 * y + 3 * x - 875
+            A = 5 * y + 3 * x - (875 + 5*clearance)
             if A <= 0:
                 sideA.append((x, y))
-            D = 5 * y - 3 * x + 625
+            D = 5 * y - 3 * x + 625 + 5*clearance
             if D >= 0:
                 sideD.append((x, y))
-            C = 5 * y + 3 * x - 725
+            C = 5 * y + 3 * x - (725 - 5*clearance)
             if C >= 0:
                 sideC.append((x, y))
 
-            B = 5 * y - 3 * x + 475
+            B = 5 * y - 3 * x + 475 - 5*clearance
             if B <= 0:
                 sideB.append((x, y))
 
@@ -92,6 +91,7 @@ def finalmap(clearance):
 
     plt.scatter(x_brquad, y_brquad, color='g')
 
+
     # Object 4 = Bottom left rectangle
     rect_side1 = []
     rect_side2 = []
@@ -99,22 +99,22 @@ def finalmap(clearance):
     rect_side4 = []
     for x in range(301):
         for y in range(201):
-            rect_line1 = 9 * y - 5 * x - 462
+            rect_line1 = 9 * y - 5 * x - (462 + 9*clearance)
             if rect_line1 <= 0:
                 rect_side1.append((x, y))
-            rect_line2 = 65 * y + 38 * x - 6227
+            rect_line2 = 65 * y + 38 * x - (6227 + 65*clearance)
             if rect_line2 <= 0:
                 rect_side2.append((x, y))
-            rect_line3 = 9 * y - 5 * x + 205
+            rect_line3 = 9 * y - 5 * x + 205 + 9*clearance
             if rect_line3 >= 0:
                 rect_side3.append((x, y))
-            rect_line4 = 65 * y + 38 * x - 5560
+            rect_line4 = 65 * y + 38 * x - (5560 - 65*clearance)
             if rect_line4 >= 0:
                 rect_side4.append((x, y))
     blrectangle = list(set(rect_side1) & set(rect_side2) & set(rect_side3) & set(rect_side4))
     x_blrectangle = [x[0] for x in blrectangle]
     y_blrectangle = [x[1] for x in blrectangle]
-    plt.scatter(x_blrectangle, y_blrectangle, color='r')
+    plt.scatter(x_blrectangle, y_blrectangle, color='g')
 
     for i in blrectangle:
         obstaclespace[i[1]][i[0]] = -1
@@ -135,33 +135,33 @@ def finalmap(clearance):
 
             # Triangle A1
 
-            line1 = y - 13 * x + 140
+            line1 = y - 13 * x + (140 - 5* clearance)
             if line1 <= 0:
                 side1.append((x, y))
-            line2 = y - x - 100
+            line2 = y - x - (100 - clearance)
             if line2 >= 0:
                 side2.append((x, y))
-            line3 = 5 * y + 7 * x - 1100
+            line3 = 5 * y + 7 * x - (1110 + 5*clearance)
             if line3 <= 0:
                 side3.append((x, y))
 
             # Triangle A2
-            line4 = y - 185
+            line4 = y - (185 + clearance)
             if line4 <= 0:
                 side4.append((x, y))
             line7 = x - 75
             if line7 <= 0:
                 side7.append((x, y))
-            line8 = 10 * y + 13 * x - 2175
+            line8 = 10 * y + 13 * x - (2175 + clearance)
             if line8 >= 0:
                 side8.append((x, y))
 
             # Triangle A3
 
-            line5 = 5 * y + 7 * x - 1450
+            line5 = 5 * y + 7 * x - (1450 + 5*clearance)
             if line5 <= 0:
                 side5.append((x, y))
-            line6 = 5 * y - 6 * x - 150
+            line6 = 5 * y - 6 * x - (150 + clearance)
             if line6 >= 0:
                 side6.append((x, y))
             line9 = x - 75

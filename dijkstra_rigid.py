@@ -12,10 +12,10 @@ if userdefined:
     clearance = int(input("Please enter the Radius of the robot"))
 else:
     start_nodex = 5
-    start_nodey = 5
-    goal_nodex = 295
-    goal_nodey = 5
-    clearance = 1
+    start_nodey = 15
+    goal_nodex = 200
+    goal_nodey = 190
+    clearance = 15
 
 start_pos = (start_nodex, start_nodey)
 goal_pos = (goal_nodex, goal_nodey)
