@@ -31,6 +31,8 @@ Fig. Final Obstacle Map
         3) Input Goal point x co-ordinate - Enter X co-ordinate of goal position.
         4) Input Goal point y co-ordinate - Enter Y co-ordinate of goal position.
         5) Input Radius of the robot      - Enter Radius of the robot
+        
+Note: If the radius of the robot is bigger than 15 this will cause the map to look distored. But will still calculate optimal path following the conditions.
  ## Runtime
     Runtime for:
         Start Position=(5,5)
