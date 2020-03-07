@@ -1,7 +1,7 @@
 # ENPM661-Project 2
 ## Implementation of Dijkstra algorithm for a Point and Rigid Robot
 Fig. Final Obstacle Map
-    ![alt text](https://github.com/AkshayKurhade/ENPM661-Project2-Dijkstra/blob/master/map.png "Map Title Text 1")
+    ![alt text](https://github.com/AkshayKurhade/ENPM661-Project2-Dijkstra/blob/master/OldAlgo/map.png "Map Title Text 1")
 ## Libraries used
     1) Matplotlib
     2) Numpy
@@ -40,5 +40,5 @@ Note: If the radius of the robot is bigger than 15 this will cause the map to lo
         Average ~ 9.2-10.3 seconds
     Figure:- Final Path for (5,5) to (295,195)
     
-   ![alt text](https://github.com/AkshayKurhade/ENPM661-Project2-Dijkstra/blob/master/path_point.png "Map Title Text 1")
+   ![alt text](https://github.com/AkshayKurhade/ENPM661-Project2-Dijkstra/blob/master/OldAlgo/path_point.png "Map Title Text 1")
    
